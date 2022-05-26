@@ -5,9 +5,6 @@ const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
 // const { agent } = require('supertest');
 
-
-
-
 describe('Side-Gig-Backend routes', () => {
   beforeEach(() => {
     return setup(pool);
@@ -23,7 +20,6 @@ describe('Side-Gig-Backend routes', () => {
       email: 'guy1',
       password: '123456',
     });
-  
 
     const res = await agent
       .post('/api/v1/users/signup')
@@ -45,9 +41,8 @@ describe('Side-Gig-Backend routes', () => {
       .post('/api/v1/users/signin')
       .send({ email, password: '123456' })
       .redirects(1);
-  
-    expect(res.req.path).toEqual('/api/v1/comparison');
 
+    expect(res.req.path).toEqual('/api/v1/comparison');
   });
 
   it('signs out a user', async () => {
@@ -57,7 +52,7 @@ describe('Side-Gig-Backend routes', () => {
     });
     const agent = request.agent(app);
 
-    await agent 
+    await agent
       .post('/api/v1/users/signin')
       .send({ email: user.email, password: '123456' })
       .redirects(1);
@@ -70,6 +65,18 @@ describe('Side-Gig-Backend routes', () => {
     });
     expect(res.status).toEqual(200);
   });
+
+  it('displays gigs table', async () => {
+    const agent = request.agent(app);
+
+    const res = await agent.get('/api/v1/comparison');
+
+    const gigInNeed = {
+      gigName: 'uber',
+      thirdPartyLink: 'https://www.uber.com/us/en/s/e/join/',
+      hourlySalary: "23.83",
+    };
+
+    expect(res.body).toEqual(gigInNeed);
+  });
 });
-
-
