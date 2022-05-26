@@ -49,6 +49,27 @@ describe('Side-Gig-Backend routes', () => {
     expect(res.req.path).toEqual('/api/v1/comparison');
 
   });
+
+  it('signs out a user', async () => {
+    const user = await UserService.create({
+      email: 'guy1',
+      password: '123456',
+    });
+    const agent = request.agent(app);
+
+    await agent 
+      .post('/api/v1/users/signin')
+      .send({ email: user.email, password: '123456' })
+      .redirects(1);
+
+    const res = await agent.delete('/api/v1/users');
+
+    expect(res.body).toEqual({
+      success: true,
+      message: 'Successfully signed Out of App',
+    });
+    expect(res.status).toEqual(200);
+  });
 });
 
 
