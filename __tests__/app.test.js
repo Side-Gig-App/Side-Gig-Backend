@@ -28,7 +28,7 @@ describe('Side-Gig-Backend routes', () => {
     const res = await agent
       .post('/api/v1/users/sessions')
       .send({ email: 'guy1', password: '123456' });
-    expect(res.body).toEqual({ message: 'You are Signed In' });
+    expect(res.body).toEqual({ ...user, profiles_id: '2' });
   });
 });
 
