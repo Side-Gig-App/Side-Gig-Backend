@@ -24,7 +24,7 @@ describe('Side-Gig-Backend routes', () => {
     const res = await agent
       .post('/api/v1/users/signup')
       .send({ email: 'guy1', password: '123456' });
-    expect(res.body).toEqual({ ...user, profiles_id: '2' });
+    expect(res.body).toEqual({ ...user, profiles_id: expect.any(String) });
   });
 
   it('should sign in a user', async () => {
@@ -74,9 +74,26 @@ describe('Side-Gig-Backend routes', () => {
     const gigInNeed = {
       gigName: 'uber',
       thirdPartyLink: 'https://www.uber.com/us/en/s/e/join/',
-      hourlySalary: "23.83",
+      hourlySalary: '23.83',
     };
 
     expect(res.body).toEqual(gigInNeed);
+  });
+
+  it('should fetch a list of gigs from gigs table', async () => {
+    const agent = request.agent(app);
+    const res = await agent
+      .post('/api/v1/comparison')
+      .send({
+        gigName: 'handy man',
+        thirdPartyLink: 'handyman.com',
+        hourlySalary: '40',
+      });
+    console.log('TEST', res.body);
+    expect(res.body).toEqual({
+      gigName: 'handy man',
+      thirdPartyLink: 'handyman.com',
+      hourlySalary: '40',
+    });
   });
 });
