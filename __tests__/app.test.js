@@ -17,18 +17,37 @@ describe('Side-Gig-Backend routes', () => {
     pool.end();
   });
 
-  it('signs in a user', async () => {
+  it('signs up a user', async () => {
     const agent = request.agent(app);
     const user = await UserService.create({
       email: 'guy1',
       password: '123456',
     });
-    console.log(user);
+  
 
     const res = await agent
-      .post('/api/v1/users/sessions')
+      .post('/api/v1/users/signup')
       .send({ email: 'guy1', password: '123456' });
     expect(res.body).toEqual({ ...user, profiles_id: '2' });
+  });
+
+  it('should sign in a user', async () => {
+    const agent = request.agent(app);
+
+    const user = await UserService.create({
+      email: 'guy1',
+      password: '123456',
+    });
+
+    const { email } = user;
+
+    const res = await agent
+      .post('/api/v1/users/signin')
+      .send({ email, password: '123456' })
+      .redirects(1);
+  
+    expect(res.req.path).toEqual('/api/v1/comparison');
+
   });
 });
 
