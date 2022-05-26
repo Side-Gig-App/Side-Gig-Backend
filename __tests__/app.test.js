@@ -69,7 +69,11 @@ describe('Side-Gig-Backend routes', () => {
   it('displays gigs table', async () => {
     const agent = request.agent(app);
 
-    const res = await agent.get('/api/v1/comparison');
+    const res = await agent
+      .post('/api/v1/comparison')
+      .send([{ 'gig_id': '1', 'gig_name': 'uber', 'salary_hourly': 25, 'third_party_link': 'link' }, { 'gig_id': '2', 'gig_name': 'lawn', 'salary_hourly': 22, 'third_party_link': 'here' }]);
+
+    // const res = await agent.get('/api/v1/comparison');
 
     const gigInNeed = {
       gigName: 'uber',
@@ -82,18 +86,52 @@ describe('Side-Gig-Backend routes', () => {
 
   it('should fetch a list of gigs from gigs table', async () => {
     const agent = request.agent(app);
-    const res = await agent
-      .post('/api/v1/comparison')
-      .send({
-        gigName: 'handy man',
-        thirdPartyLink: 'handyman.com',
-        hourlySalary: '40',
-      });
-    console.log('TEST', res.body);
-    expect(res.body).toEqual({
-      gigName: 'handy man',
-      thirdPartyLink: 'handyman.com',
-      hourlySalary: '40',
+
+    await UserService.create({
+      email: 'guy1',
+      password: '123456',
     });
+
+    await agent
+      .post('/api/v1/users/signin')
+      .send({   email: 'guy1',
+        password: '123456' });
+
+    const res = await agent 
+      .post('/api/v1/comparison')
+      .send([{
+        gig_name: 'uber',
+        thirdPartyLink: 'https://www.uber.com/us/en/s/e/join/',
+        hourlySalary: '23.83' },
+      {
+        gig_name: 'lawn',
+        thirdPartyLink: 'https://www.uber.com',
+        hourlySalary: '200',
+      }
+      ]);
+
+    // await agent
+    //   .post('/api/v1/comparison')
+    //   .send({
+    //     gigName: 'lawn',
+    //     thirdPartyLink: 'https://www.uber.com',
+    //     hourlySalary: '200',
+    //   });
+
+    // const res = await agent
+    // .get('/api/v1/comparison');
+      
+    console.log('TEST', res.body);
+
+    expect(res.body).toEqual([{
+      gig_name: 'uber',
+      thirdPartyLink: 'https://www.uber.com/us/en/s/e/join/',
+      hourlySalary: '23.83' },
+    {
+      gig_name: 'lawn',
+      thirdPartyLink: 'https://www.uber.com',
+      hourlySalary: '200',
+    }
+    ]);
   });
 });
