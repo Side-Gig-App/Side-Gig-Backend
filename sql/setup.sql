@@ -34,7 +34,7 @@ CREATE TABLE gigs (
   gig_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   gig_name TEXT NOT NULL,
   third_party_link TEXT NOT NULL,
-  salary_hourly INT NOT NULL
+  salary_hourly DECIMAL NOT NULL
 );
 
 CREATE TABLE favorites (
@@ -44,15 +44,15 @@ CREATE TABLE favorites (
   gig_id INT NOT NULL REFERENCES gigs(gig_id)
 );
 
-INSERT INTO gigs(
-  gig_name,
-  third_party_link,
-  salary_hourly 
-)
+-- INSERT INTO gigs(
+--   gig_name,
+--   third_party_link,
+--   salary_hourly 
+-- )
 
-VALUES
-('uber', 'link', '25'),
-('lawn', 'here', '22')
+-- VALUES
+-- ('uber', 'link', '25'),
+-- ('lawn', 'here', '22')
 
 
 
