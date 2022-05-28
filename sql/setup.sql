@@ -40,7 +40,7 @@ CREATE TABLE gigs (
 CREATE TABLE favorites (
   favorite_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   profiles_id INT NOT NULL REFERENCES profiles(profiles_id),
-  is_favorite BOOLEAN NOT NULL,
+  is_favorite BOOLEAN DEFAULT FALSE NOT NULL,
   gig_id INT NOT NULL REFERENCES gigs(gig_id)
 );
 
