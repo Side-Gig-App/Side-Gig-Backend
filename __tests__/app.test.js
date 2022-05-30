@@ -123,7 +123,7 @@ describe('Side-Gig-Backend routes', () => {
 
     const res = await agent.get('/api/v1/comparison');
 
-    console.log('TEST', res.body);
+    // console.log('TEST', res.body);
 
     expect(res.body).toEqual([
       {
@@ -148,15 +148,26 @@ describe('Side-Gig-Backend routes', () => {
       email: 'guy1',
       password: '123456',
     });
-
-    await agent
+    const user = await agent
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
 
-    const res = await request(app).patch('/api/v1/users/favorites').send({
-      is_favorite: true,
+    await request(app).post('/api/v1/comparison').send({
+      gig_name: 'uber',
+      third_party_link: 'https://www.uber.com/us/en/s/e/join/',
+      salary_hourly: '23.83',
     });
-
+    await request(app).post('/api/v1/comparison').send({
+      gig_name: 'lawn',
+      third_party_link: 'https://www.uber.com',
+      salary_hourly: '200',
+    });
+    console.log('165User', user);
+    const res = await request(app).patch('/api/v1/favorites').send({
+      is_favorite: true
+      // favorite_id: 1
+    });
+    console.log('||||TESTFAVORITE', res.body);
     expect(res.body).toEqual({ message: 'this is just a test it will fail' });
   });
 });
