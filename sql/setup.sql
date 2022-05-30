@@ -38,10 +38,10 @@ CREATE TABLE gigs (
 );
 
 CREATE TABLE favorites (
-  favorite_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  profiles_id INT NOT NULL REFERENCES profiles(profiles_id),
+  -- favorite_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  profiles_id BIGINT REFERENCES profiles(profiles_id),
   is_favorite BOOLEAN DEFAULT FALSE NOT NULL,
-  gig_id INT NOT NULL REFERENCES gigs(gig_id)
+  gig_id BIGINT REFERENCES gigs(gig_id)
 );
 
 -- INSERT INTO gigs(
@@ -53,6 +53,16 @@ CREATE TABLE favorites (
 -- VALUES
 -- ('uber', 'link', '25'),
 -- ('lawn', 'here', '22')
+
+-- INSERT INTO favorites(
+--   profiles_id,
+--   is_favorite,
+--   gig_id
+-- )
+
+-- VALUES
+-- ('1', 'true', '3'),
+-- ('2', 'true', '7')
 
 
 
