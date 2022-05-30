@@ -3,6 +3,7 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
+const Gig = require('../lib/models/Comparison');
 // const { agent } = require('supertest');
 
 describe('Side-Gig-Backend routes', () => {
@@ -152,28 +153,41 @@ describe('Side-Gig-Backend routes', () => {
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
 
-    await request(app).post('/api/v1/comparison')
-      .send({
-        gig_name: 'uber',
-        third_party_link: 'https://www.uber.com/us/en/s/e/join/',
-        salary_hourly: '23.83',
-      });
+    //  post gigs to DB
     await request(app)
       .post('/api/v1/comparison')
-      .send({
-        gig_name: 'lawn',
-        third_party_link: 'https://www.uber.com',
-        salary_hourly: '200',
-      });
-    console.log('165User', user);
+      .send(
+        {
+          gig_name: 'uber',
+          third_party_link: 'https://www.uber.com/us/en/s/e/join/',
+          salary_hourly: '23.83',
+        },
+      );
+    // await request(app)
+    //   .post('/api/v1/comparison')
+    //   .send({
+    //     gig_name: 'lawn',
+    //     third_party_link: 'https://www.uber.com',
+    //     salary_hourly: '200',
+    //   });
+
+    // await Gig.insert(
+    //   {
+    //     gig_name: 'pie',
+    //     third_party_link: 'link',
+    //     salary_hourly: '25',
+    //   }
+    // );
+
+    // console.log('165User', user);
     const res = await request(app).patch('/api/v1/favorites').send({
       is_favorite: true,
-      favorite_id: 1
+      favorite_id: 1,
     });
     console.log('||||TESTFAVORITE', res.body);
     expect(res.body).toEqual({
       is_favorite: true,
-      favorite_id: 1
+      favorite_id: 1,
     });
   });
 });
