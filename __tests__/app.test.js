@@ -161,6 +161,7 @@ describe('Side-Gig-Backend routes', () => {
           gig_name: 'uber',
           third_party_link: 'https://www.uber.com/us/en/s/e/join/',
           salary_hourly: '23.83',
+          profiles_id:'1'
         },
       );
 
@@ -193,19 +194,21 @@ describe('Side-Gig-Backend routes', () => {
     });
   });
 
-  it('tests the insertgigToFavorites function', async() => {
+  it('adds the gigs id and profiles id to the favorites table', async() => {
     const agent = request.agent(app);
     // const favoriteGigs = await Gig.insertGigToFavorites({
     //   gig_id:'1'
     // });
 
-    await UserService.create({
+    const newUser = await UserService.create({
       email: 'guy1',
       password: '123456',
     });
+    console.log(newUser, 'new user----------');
     const user = await agent
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
+
 
     //  post gigs to DB
     const res = await request(app)
@@ -215,6 +218,7 @@ describe('Side-Gig-Backend routes', () => {
           gig_name: 'uber',
           third_party_link: 'https://www.uber.com/us/en/s/e/join/',
           salary_hourly: '23.83',
+          profiles_id: newUser.profiles_id
         },
       );
   
@@ -230,9 +234,8 @@ describe('Side-Gig-Backend routes', () => {
       gig_name: 'uber',
       third_party_link: 'https://www.uber.com/us/en/s/e/join/',
       salary_hourly: '23.83',
+      // profiles_id: expect.any(String)
     });
-
-
-    
   });
 });
+
