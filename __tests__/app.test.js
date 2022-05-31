@@ -4,7 +4,6 @@ const request = require('supertest');
 const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
 const Gig = require('../lib/models/Comparison');
-// const { agent } = require('supertest');
 
 describe('Side-Gig-Backend routes', () => {
   beforeEach(() => {
@@ -163,6 +162,8 @@ describe('Side-Gig-Backend routes', () => {
           salary_hourly: '23.83',
         },
       );
+
+      
     // await request(app)
     //   .post('/api/v1/comparison')
     //   .send({
