@@ -4,6 +4,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
 const Gig = require('../lib/models/Comparison');
+const { insertGigToFavorites } = require('../lib/models/Comparison');
 
 describe('Side-Gig-Backend routes', () => {
   beforeEach(() => {
@@ -141,7 +142,7 @@ describe('Side-Gig-Backend routes', () => {
     ]);
   });
 
-  it('gives us a list of user favotites gigs', async () => {
+  it('gives us a list of user favorites gigs', async () => {
     const agent = request.agent(app);
 
     await UserService.create({
@@ -160,6 +161,7 @@ describe('Side-Gig-Backend routes', () => {
           gig_name: 'uber',
           third_party_link: 'https://www.uber.com/us/en/s/e/join/',
           salary_hourly: '23.83',
+          profiles_id:'1'
         },
       );
 
@@ -191,4 +193,49 @@ describe('Side-Gig-Backend routes', () => {
       favorite_id: 1,
     });
   });
+
+  it('adds the gigs id and profiles id to the favorites table', async() => {
+    const agent = request.agent(app);
+    // const favoriteGigs = await Gig.insertGigToFavorites({
+    //   gig_id:'1'
+    // });
+
+    const newUser = await UserService.create({
+      email: 'guy1',
+      password: '123456',
+    });
+    console.log(newUser, 'new user----------');
+    const user = await agent
+      .post('/api/v1/users/signin')
+      .send({ email: 'guy1', password: '123456' });
+
+
+    //  post gigs to DB
+    const res = await request(app)
+      .post('/api/v1/comparison')
+      .send(
+        {
+          gig_name: 'uber',
+          third_party_link: 'https://www.uber.com/us/en/s/e/join/',
+          salary_hourly: '23.83',
+          profiles_id: newUser.profiles_id
+        },
+      );
+  
+    // const res = await request(app)
+    //   .post('/api/v1/comparison')
+    //   .send({
+    //     gig_id:'1',
+    //     gig_name: 'uber'
+    //   });
+
+    expect(res.body).toEqual({
+      gig_id:'1',
+      gig_name: 'uber',
+      third_party_link: 'https://www.uber.com/us/en/s/e/join/',
+      salary_hourly: '23.83',
+      // profiles_id: expect.any(String)
+    });
+  });
 });
+
