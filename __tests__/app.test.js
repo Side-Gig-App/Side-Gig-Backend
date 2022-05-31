@@ -5,6 +5,7 @@ const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
 const Gig = require('../lib/models/Comparison');
 const { insertGigToFavorites } = require('../lib/models/Comparison');
+const Favorite = require('../lib/models/Favorites');
 
 describe('Side-Gig-Backend routes', () => {
   beforeEach(() => {
@@ -68,9 +69,17 @@ describe('Side-Gig-Backend routes', () => {
   });
 
   it('displays gigs table', async () => {
-    // const agent = request.agent(app);
+    const agent = request.agent(app);
 
-    const res = await request(app).post('/api/v1/comparison').send({
+    await UserService.create({
+      email: 'guy1',
+      password: '123456',
+    });
+    const user = await agent
+      .post('/api/v1/users/signin')
+      .send({ email: 'guy1', password: '123456' });
+
+    const res = await agent.post('/api/v1/comparison').send({
       gig_name: 'uber',
       third_party_link: 'https://www.uber.com/us/en/s/e/join/',
       salary_hourly: '23.83',
@@ -100,12 +109,12 @@ describe('Side-Gig-Backend routes', () => {
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
 
-    await request(app).post('/api/v1/comparison').send({
+    await agent.post('/api/v1/comparison').send({
       gig_name: 'uber',
       third_party_link: 'https://www.uber.com/us/en/s/e/join/',
       salary_hourly: '23.83',
     });
-    await request(app).post('/api/v1/comparison').send({
+    await agent.post('/api/v1/comparison').send({
       gig_name: 'lawn',
       third_party_link: 'https://www.uber.com',
       salary_hourly: '200',
@@ -143,30 +152,59 @@ describe('Side-Gig-Backend routes', () => {
   });
 
   it('gives us a list of user favorites gigs', async () => {
-    const agent = request.agent(app);
+    // const agent = request.agent(app);
 
-    await UserService.create({
+    // const newUser = await UserService.create({
+    //   email: 'guy1',
+    //   password: '123456',
+    // });
+    // const user = await agent
+    //   .post('/api/v1/users/signin')
+    //   .send({ email: 'guy1', password: '123456' });
+
+    // //  post gigs to DB
+    // await agent.post('/api/v1/comparison').send({
+    //   gig_name: 'uber',
+    //   third_party_link: 'https://www.uber.com/us/en/s/e/join/',
+    //   salary_hourly: '23.83',
+    //   profiles_id: newUser.profiles_id,
+    // });
+
+
+
+    const agent = request.agent(app);
+    // const favoriteGigs = await Gig.insertGigToFavorites({
+    //   gig_id:'1'
+    // });
+
+    const newUser = await UserService.create({
       email: 'guy1',
       password: '123456',
     });
+    console.log(newUser, 'new user----------');
     const user = await agent
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
 
     //  post gigs to DB
-    await request(app)
-      .post('/api/v1/comparison')
-      .send(
-        {
-          gig_name: 'uber',
-          third_party_link: 'https://www.uber.com/us/en/s/e/join/',
-          salary_hourly: '23.83',
-          profiles_id:'1'
-        },
-      );
+    await agent.post('/api/v1/comparison').send({
+      gig_name: 'uber',
+      third_party_link: 'https://www.uber.com/us/en/s/e/join/',
+      salary_hourly: '23.83',
+      profiles_id: newUser.profiles_id,
+    });
 
-      
-    // await request(app)
+
+
+
+    // await agent.post('/api/v1/comparison').send({
+    //   gig_name: 'uber',
+    //   third_party_link: 'https://www.uber.com/us/en/s/e/join/',
+    //   salary_hourly: '23.83',
+    //   // profiles_id: '1',
+    // });
+
+    // await agent
     //   .post('/api/v1/comparison')
     //   .send({
     //     gig_name: 'lawn',
@@ -183,18 +221,20 @@ describe('Side-Gig-Backend routes', () => {
     // );
 
     // console.log('165User', user);
-    const res = await request(app).patch('/api/v1/favorites').send({
+    const res = await agent.patch('/api/v1/favorites').send({
       is_favorite: true,
-      favorite_id: 1,
+      gig_id: '1',
+      // favorite_id: 1,
     });
     console.log('||||TESTFAVORITE', res.body);
     expect(res.body).toEqual({
       is_favorite: true,
-      favorite_id: 1,
+      gig_id: '1',
+      profiles_id: '1'
     });
   });
 
-  it('adds the gigs id and profiles id to the favorites table', async() => {
+  it('adds the gigs id and profiles id to the favorites table', async () => {
     const agent = request.agent(app);
     // const favoriteGigs = await Gig.insertGigToFavorites({
     //   gig_id:'1'
@@ -209,28 +249,26 @@ describe('Side-Gig-Backend routes', () => {
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
 
-
     //  post gigs to DB
-    const res = await request(app)
-      .post('/api/v1/comparison')
-      .send(
-        {
-          gig_name: 'uber',
-          third_party_link: 'https://www.uber.com/us/en/s/e/join/',
-          salary_hourly: '23.83',
-          profiles_id: newUser.profiles_id
-        },
-      );
-  
-    // const res = await request(app)
-    //   .post('/api/v1/comparison')
-    //   .send({
-    //     gig_id:'1',
-    //     gig_name: 'uber'
-    //   });
+    const res = await agent.post('/api/v1/comparison').send({
+      gig_name: 'uber',
+      third_party_link: 'https://www.uber.com/us/en/s/e/join/',
+      salary_hourly: '23.83',
+      profiles_id: newUser.profiles_id,
+    });
+
+    const fav = await Favorite.fetchFavByProfileID(newUser.profiles_id);
+
+    expect(fav).toEqual([
+      new Favorite({
+        gig_id: '1',
+        is_favorite: false,
+        profiles_id: '1',
+      }),
+    ]);
 
     expect(res.body).toEqual({
-      gig_id:'1',
+      gig_id: '1',
       gig_name: 'uber',
       third_party_link: 'https://www.uber.com/us/en/s/e/join/',
       salary_hourly: '23.83',
@@ -238,4 +276,3 @@ describe('Side-Gig-Backend routes', () => {
     });
   });
 });
-

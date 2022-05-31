@@ -44,6 +44,17 @@ CREATE TABLE favorites (
   gig_id BIGINT REFERENCES gigs(gig_id)
 );
 
+-- INSERT INTO profiles(
+--   gig_name,
+--   third_party_link,
+--   salary_hourly 
+-- )
+
+-- VALUES
+-- ('uber', 'link', '25'),
+-- ('lawn', 'here', '22')
+
+
 -- INSERT INTO gigs(
 --   gig_name,
 --   third_party_link,
