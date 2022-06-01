@@ -3,10 +3,10 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
-const Gig = require('../lib/models/Comparison');
-const { insertGigToFavorites } = require('../lib/models/Comparison');
-const Favorite = require('../lib/models/Favorites');
-const Goal = require('../lib/models/Goals');
+// const Gig = require('../lib/models/Comparison');
+// const { insertGigToFavorites } = require('../lib/models/Comparison');
+// const Favorite = require('../lib/models/Favorites');
+// const Goal = require('../lib/models/Goals');
 
 describe('Side-Gig-Backend routes', () => {
   beforeEach(() => {
