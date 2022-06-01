@@ -3,8 +3,8 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
-const Gig = require('../lib/models/Comparison');
-const { insertGigToFavorites } = require('../lib/models/Comparison');
+// const Gig = require('../lib/models/Comparison');
+// const { insertGigToFavorites } = require('../lib/models/Comparison');
 const Favorite = require('../lib/models/Favorites');
 
 describe('Side-Gig-Backend routes', () => {
@@ -75,7 +75,7 @@ describe('Side-Gig-Backend routes', () => {
       email: 'guy1',
       password: '123456',
     });
-    const user = await agent
+    await agent
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
 
@@ -170,8 +170,6 @@ describe('Side-Gig-Backend routes', () => {
     //   profiles_id: newUser.profiles_id,
     // });
 
-
-
     const agent = request.agent(app);
     // const favoriteGigs = await Gig.insertGigToFavorites({
     //   gig_id:'1'
@@ -181,8 +179,8 @@ describe('Side-Gig-Backend routes', () => {
       email: 'guy1',
       password: '123456',
     });
-   
-    const user = await agent
+
+    await agent
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
 
@@ -193,9 +191,6 @@ describe('Side-Gig-Backend routes', () => {
       salary_hourly: '23.83',
       profiles_id: newUser.profiles_id,
     });
-
-
-
 
     // await agent.post('/api/v1/comparison').send({
     //   gig_name: 'uber',
@@ -226,11 +221,11 @@ describe('Side-Gig-Backend routes', () => {
       gig_id: '1',
       // favorite_id: 1,
     });
-  
+
     expect(res.body).toEqual({
       is_favorite: true,
       gig_id: '1',
-      profiles_id: '1'
+      profiles_id: '1',
     });
   });
 
@@ -244,8 +239,8 @@ describe('Side-Gig-Backend routes', () => {
       email: 'guy1',
       password: '123456',
     });
-  
-    const user = await agent
+
+    await agent
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
 
