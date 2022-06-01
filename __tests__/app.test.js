@@ -181,7 +181,7 @@ describe('Side-Gig-Backend routes', () => {
       email: 'guy1',
       password: '123456',
     });
-    console.log(newUser, 'new user----------');
+   
     const user = await agent
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
@@ -226,7 +226,7 @@ describe('Side-Gig-Backend routes', () => {
       gig_id: '1',
       // favorite_id: 1,
     });
-    console.log('||||TESTFAVORITE', res.body);
+  
     expect(res.body).toEqual({
       is_favorite: true,
       gig_id: '1',
@@ -244,7 +244,7 @@ describe('Side-Gig-Backend routes', () => {
       email: 'guy1',
       password: '123456',
     });
-    console.log(newUser, 'new user----------');
+  
     const user = await agent
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
