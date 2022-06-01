@@ -82,14 +82,52 @@ describe('Side-Gig-Backend routes', () => {
       goal_amount:100, goal_accomplished:true,
       goal_id:'1'
     });
-
-
-
-
-
-
-
   });
+
+  it('gets a list of goals for a user', async () => {
+    const agent = request.agent(app);
+
+    await UserService.create({
+      email: 'guy1',
+      password: '123456',
+    });
+  
+    await agent
+      .post('/api/v1/users/signin')
+      .send({ email: 'guy1', password: '123456' });
+
+    await agent
+      .post('/api/v1/goals')
+      .send({ 
+        profiles_id:'1', 
+        goal_amount:'100', goal_accomplished:'false'
+      });
+    const res =  await agent
+      .post('/api/v1/goals')
+      .send([{ 
+        profiles_id:'1', 
+        goal_amount:'120', goal_accomplished:'false'
+      },
+      {
+        profiles_id:'1', 
+        goal_amount:'120', goal_accomplished:'false'
+
+      }
+      ]);
+
+    expect(res.body).toEqual([
+      {
+        profiles_id:'1', 
+        goal_amount:'100', goal_accomplished:'false' }
+      ,
+      {
+        profiles_id:'1', 
+        goal_amount:'120', goal_accomplished:'false'
+
+      }
+    ]);
+  },
+  );
 
 
 });
