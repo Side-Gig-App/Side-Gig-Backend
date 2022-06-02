@@ -32,8 +32,8 @@ CREATE TABLE goals (
 
 CREATE TABLE gigs (
   gig_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  gig_name TEXT NOT NULL,
-  third_party_link TEXT NOT NULL,
+  gig_name TEXT NOT NULL UNIQUE,
+  third_party_link TEXT NOT NULL UNIQUE,
   salary_hourly DECIMAL NOT NULL
 );
 
