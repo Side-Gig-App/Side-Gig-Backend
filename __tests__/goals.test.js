@@ -46,11 +46,7 @@ describe('Side-Gig-Backend routes', () => {
     expect(res.body).toEqual({ ...insertedGoal, goal_id: expect.any(String) });
   });
 
-<<<<<<< HEAD
-  it('updates a goal to accomplished', async() => {
-=======
   it('updates a goal to accomplished', async () => {
->>>>>>> 8b0367320e6ae561dc6e26df4418377f299da955
     const agent = request.agent(app);
 
     await UserService.create({
@@ -83,7 +79,7 @@ describe('Side-Gig-Backend routes', () => {
     });
   });
 
-  it.only('gets a list of goals for a user', async () => {
+  it('gets a list of goals for a user', async () => {
     const agent = request.agent(app);
 
     await UserService.create({
