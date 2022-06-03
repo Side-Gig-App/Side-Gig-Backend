@@ -3,10 +3,6 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
-// const Gig = require('../lib/models/Comparison');
-// const { insertGigToFavorites } = require('../lib/models/Comparison');
-// const Favorite = require('../lib/models/Favorites');
-// const Goal = require('../lib/models/Goals');
 
 describe('Side-Gig-Backend routes', () => {
   beforeEach(() => {
@@ -30,14 +26,12 @@ describe('Side-Gig-Backend routes', () => {
       .send({ email: 'guy1', password: '123456' });
 
     const res = await agent.post('/api/v1/goals').send({
-      // goal_id:'1',
       profiles_id: '1',
       goal_amount: '100',
       goal_accomplished: 'false',
     });
 
     const insertedGoal = {
-      //   goal_id:'1',
       profiles_id: 1,
       goal_amount: 100,
       goal_accomplished: false,
@@ -91,14 +85,7 @@ describe('Side-Gig-Backend routes', () => {
       .post('/api/v1/users/signin')
       .send({ email: 'guy1', password: '123456' });
 
-    // await agent
-    //   .post('/api/v1/goals')
-    //   .send({
-    //     // profiles_id:'1',
-    //     goal_amount: 100, goal_accomplished:'false'
-    //   });
     await agent.post('/api/v1/goals').send({
-      // profiles_id:'1',
       goal_amount: 100,
       goal_accomplished: false,
     });
@@ -108,7 +95,6 @@ describe('Side-Gig-Backend routes', () => {
     });
     
     const res = await agent.get('/api/v1/goals');
-    // console.log(res, 'yjis is our resssss');
     expect(res.body).toEqual([
       {
         profiles_id: 1,

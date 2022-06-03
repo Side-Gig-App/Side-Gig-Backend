@@ -38,22 +38,10 @@ CREATE TABLE gigs (
 );
 
 CREATE TABLE favorites (
-  -- favorite_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   profiles_id BIGINT REFERENCES profiles(profiles_id),
   is_favorite BOOLEAN DEFAULT FALSE NOT NULL,
   gig_id BIGINT REFERENCES gigs(gig_id)
 );
-
--- INSERT INTO profiles(
---   gig_name,
---   third_party_link,
---   salary_hourly 
--- )
-
--- VALUES
--- ('uber', 'link', '25'),
--- ('lawn', 'here', '22')
-
 
 -- INSERT INTO gigs(
 --   gig_name,
