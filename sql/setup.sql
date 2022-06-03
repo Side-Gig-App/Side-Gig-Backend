@@ -50,13 +50,13 @@ INSERT INTO gigs(
 )
 
 VALUES
-('uber', 'uber.com', '0'),
-('lyft', 'lyft.com', '0'),
-('doordash', 'doordash.com', '0'),
-('lawn', 'lawn-maintenance.com', '0'),
-('grubhub', 'grubhub.com', '0'),
-('nanny', 'nanny.com', '0'),
-('tutor', 'tutor.com', '0')
+('uber', 'uber.com', '21.83'),
+('lyft', 'lyft.com', '20.28'),
+('doordash', 'doordash.com', '18.84'),
+('lawn', 'lawn-maintenance.com', '25'),
+('grubhub', 'grubhub.com', '18.94'),
+('nanny', 'nanny.com', '27.42'),
+('tutor', 'tutor.com', '19.82')
 
 -- INSERT INTO favorites(
 --   profiles_id,
