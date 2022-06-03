@@ -43,15 +43,20 @@ CREATE TABLE favorites (
   gig_id BIGINT REFERENCES gigs(gig_id)
 );
 
--- INSERT INTO gigs(
---   gig_name,
---   third_party_link,
---   salary_hourly 
--- )
+INSERT INTO gigs(
+  gig_name,
+  third_party_link,
+  salary_hourly 
+)
 
--- VALUES
--- ('uber', 'link', '25'),
--- ('lawn', 'here', '22')
+VALUES
+('uber', 'uber.com', '0'),
+('lyft', 'lyft.com', '0'),
+('doordash', 'doordash.com', '0'),
+('lawn', 'lawn-maintenance.com', '0'),
+('grubhub', 'grubhub.com', '0'),
+('nanny', 'nanny.com', '0'),
+('tutor', 'tutor.com', '0')
 
 -- INSERT INTO favorites(
 --   profiles_id,
