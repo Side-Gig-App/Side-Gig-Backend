@@ -14,7 +14,7 @@ describe('Side-Gig-Backend routes', () => {
     pool.end();
   });
 
-  it('signs up a user', async () => {
+  it.only('signs up a user', async () => {
     const agent = request.agent(app);
     const user = await UserService.create({
       email: 'guy1',
