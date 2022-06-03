@@ -13,7 +13,7 @@ describe('Side-Gig-Backend routes', () => {
     pool.end();
   });
 
-  it('inserts a goal into the goals table', async () => {
+  it.skip('inserts a goal into the goals table', async () => {
     const agent = request.agent(app);
 
     await UserService.create({
@@ -40,7 +40,7 @@ describe('Side-Gig-Backend routes', () => {
     expect(res.body).toEqual({ ...insertedGoal, goal_id: expect.any(String) });
   });
 
-  it('updates a goal to accomplished', async () => {
+  it.skip('updates a goal to accomplished', async () => {
     const agent = request.agent(app);
 
     await UserService.create({
@@ -73,7 +73,7 @@ describe('Side-Gig-Backend routes', () => {
     });
   });
 
-  it('gets a list of goals for a user', async () => {
+  it.skip('gets a list of goals for a user', async () => {
     const agent = request.agent(app);
 
     await UserService.create({
